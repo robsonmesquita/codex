@@ -10,7 +10,7 @@ function loader(element) {
     element.textContent = ''
 
     loadInterval = setInterval(() => {
-       
+        
         element.textContent += '.';
 
         
@@ -32,7 +32,6 @@ function typeText(element, text) {
         }
     }, 20)
 }
-
 
 function generateUniqueId() {
     const timestamp = Date.now();
@@ -65,9 +64,7 @@ const handleSubmit = async (e) => {
 
     const data = new FormData(form)
 
-
     chatContainer.innerHTML += chatStripe(false, data.get('prompt'))
-
 
     form.reset()
 
@@ -77,31 +74,20 @@ const handleSubmit = async (e) => {
 
     chatContainer.scrollTop = chatContainer.scrollHeight;
 
-
     const messageDiv = document.getElementById(uniqueId)
 
 
     loader(messageDiv)
 
-    const baseURL = 'https://codex-jffo.onrender.com';
-    const headers = { 
-       'Content-Type': 'application/json',
-};
-
-   try {
-    const response = await fetch(baseURL, {
-       method: 'POST',
-       headers: {
-        ...headers,
-    },
-    body: JSON.stringify({
-      prompt: data.get('prompt')
+    const response = await fetch('https://codex-jffo.onrender.com/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            prompt: data.get('prompt')
+        })
     })
-  });
-} catch (error) {
-  console.error(error);
-}
-
 
     clearInterval(loadInterval)
     messageDiv.innerHTML = " "
